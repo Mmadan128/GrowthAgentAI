@@ -1,0 +1,48 @@
+# Career Pathfinder Agent - Dependencies
+# Core Portia SDK
+portia-sdk-python
+
+# Environment and configuration
+python-dotenv
+
+# Data validation and serialization
+pydantic
+
+# YAML configuration support
+pyyaml
+
+# Optional: For knowledge graph visualization (uncomment if needed)
+# networkx
+# matplotlib
+
+# Optional: For browser automation
+# playwright
+
+# Optional: For local LLM integration
+# ollama
+
+# Optional: For vector database (RAG examples)
+# weaviate-client
+
+# Optional: For podcast generation
+# podcastfy
+
+# Optional: For Discord bot examples
+# discord.py
+
+# Optional: For MCP server integration
+# mcp
+
+# Optional: For educational API integrations
+# requests
+# beautifulsoup4
+
+# Optional: For data analysis and visualization
+# pandas
+# numpy
+# plotly
+
+# Streamlit web app dependencies
+streamlit
+plotly
+pandas
