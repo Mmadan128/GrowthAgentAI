@@ -1,12 +1,4 @@
-"""
-Personalized Education and Career Pathfinder Agent - Fixed Version
 
-Key fixes applied:
-1. Used Pydantic BaseModel for structured_output_schema instead of Dict[str, Any]
-2. Fixed Portia run() method calls to use correct parameters
-3. Improved error handling for Portia API responses
-4. Added proper schema definitions for structured outputs
-"""
 
 import os
 import json
@@ -33,7 +25,7 @@ from pydantic import BaseModel, Field, field_validator
 
 load_dotenv(override=True)
 
-# Enums remain the same
+
 class SkillLevel(Enum):
     BEGINNER = "beginner"
     INTERMEDIATE = "intermediate"
@@ -67,7 +59,6 @@ class Industry(Enum):
     NONPROFIT = "nonprofit"
     OTHER = "other"
 
-# Models remain mostly the same but with fixes
 class Skill(BaseModel):
     name: str = Field(..., description="Skill name")
     level: SkillLevel = Field(..., description="Current proficiency level")
@@ -139,7 +130,6 @@ class UserProfile(BaseModel):
     created_at: datetime = Field(default_factory=datetime.now, description="Profile creation date")
     last_updated: datetime = Field(default_factory=datetime.now, description="Last update date")
 
-# NEW: Structured output schemas using BaseModel
 class SkillAssessment(BaseModel):
     """Structured output for skill assessment"""
     skill_gaps: List[str] = Field(..., description="Identified skill gaps")
@@ -185,7 +175,7 @@ class CareerRoadmap(BaseModel):
     created_at: datetime = Field(default_factory=datetime.now, description="Roadmap creation date")
     last_reviewed: datetime = Field(default_factory=datetime.now, description="Last review date")
 
-# LLM Tools remain the same
+
 skill_assessment_tool = LLMTool(
     id='skill_assessment_llm',
     name='Skill Assessment LLM',
@@ -286,13 +276,11 @@ class CareerPathfinderAgent:
         """
         
         try:
-            # Fixed: Use SkillAssessment BaseModel instead of Dict[str, Any]
             result = self.portia.run(
                 assessment_query,
                 structured_output_schema=SkillAssessment
             )
             
-            # Fixed: Extract the result correctly
             if hasattr(result, 'outputs') and hasattr(result.outputs, 'final_output'):
                 assessment_data = result.outputs.final_output.value
                 if isinstance(assessment_data, SkillAssessment):
@@ -368,11 +356,9 @@ class CareerPathfinderAgent:
     
     def _parse_learning_resources_from_text(self, text_response: str, target_skills: List[str]) -> List[LearningResource]:
         """Parse learning resources from text response"""
-        # This is a simplified parser - you could make it more sophisticated
         resources = []
-        
-        # Add some default resources based on the response
-        for skill in target_skills[:3]:  # Limit to first 3 skills
+
+        for skill in target_skills[:3]: 
             if "python" in skill.lower():
                 resources.append(LearningResource(
                     title="Python for Data Science",
@@ -402,7 +388,7 @@ class CareerPathfinderAgent:
         """Fallback learning resources"""
         fallback_resources = []
         
-        for skill in target_skills[:3]:  # Limit to first 3
+        for skill in target_skills[:3]:  
             if "python" in skill.lower():
                 fallback_resources.append(LearningResource(
                     title="Python for Everybody",
@@ -426,7 +412,6 @@ class CareerPathfinderAgent:
                     cost=99.0
                 ))
             else:
-                # Generic skill resource
                 fallback_resources.append(LearningResource(
                     title=f"Introduction to {skill}",
                     platform="Udemy",
@@ -465,7 +450,6 @@ class CareerPathfinderAgent:
         """
         
         try:
-            # Fixed: Use simple run without structured output for complex roadmaps
             result = self.portia.run(roadmap_query)
             
             if hasattr(result, 'outputs') and hasattr(result.outputs, 'final_output'):
@@ -476,7 +460,7 @@ class CareerPathfinderAgent:
                     roadmap_id=roadmap_id,
                     current_position=profile.current_role,
                     target_position=target_role,
-                    timeline_months=18,  # Default, could be parsed from response
+                    timeline_months=18,  
                     milestones=[
                         {"month": 3, "milestone": "Complete fundamentals course"},
                         {"month": 6, "milestone": "Build portfolio project"},
@@ -548,7 +532,6 @@ class CareerPathfinderAgent:
         """
         
         try:
-            # Fixed: Use JobMarketAnalysis BaseModel
             result = self.portia.run(
                 market_query,
                 structured_output_schema=JobMarketAnalysis
@@ -607,7 +590,6 @@ class CareerPathfinderAgent:
         """
         
         try:
-            # Fixed: Use WeeklyRecommendations BaseModel
             result = self.portia.run(
                 weekly_query,
                 structured_output_schema=WeeklyRecommendations
@@ -653,15 +635,13 @@ class CareerPathfinderAgent:
             }
         }
 
-# Demo functions remain the same but with updated calls
 def demo_career_pathfinder():
     """Demonstrate the Career Pathfinder Agent"""
     print("\n🎯 Career Pathfinder Agent Demo (Fixed Version)")
     print("=" * 60)
     
     agent = CareerPathfinderAgent()
-    
-    # Create sample user profile (same as before)
+
     sample_user = {
         "user_id": "demo_user_001",
         "name": "Alex Johnson",
@@ -695,24 +675,21 @@ def demo_career_pathfinder():
     }
     
     try:
-        # Create user profile
         print("📝 Creating user profile...")
         profile = agent.create_user_profile(sample_user)
         print(f"✓ Profile created for {profile.name}")
         
-        # Assess skills and goals
         print("\n🔍 Assessing skills and career goals...")
         assessment = agent.assess_skills_and_goals(profile.user_id)
         print("✓ Skills assessment completed")
         print(f"   Skill gaps identified: {len(assessment.get('skill_gaps', []))}")
         print(f"   Recommendations: {len(assessment.get('career_recommendations', []))}")
         
-        # Generate learning path
         print("\n📚 Generating learning path...")
         target_skills = ["Machine Learning", "Deep Learning", "Statistics"]
         learning_path = agent.generate_learning_path(profile.user_id, target_skills)
         print(f"✓ Learning path generated with {len(learning_path)} resources")
-        for resource in learning_path[:2]:  # Show first 2 resources
+        for resource in learning_path[:2]: 
             print(f"   • {resource.title} on {resource.platform} ({resource.duration_hours}h)")
         
         # Create career roadmap
