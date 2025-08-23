@@ -31,48 +31,82 @@ st.set_page_config(
 st.markdown("""
 <style>
     .main-header {
-        font-size: 3rem;
+        font-size: 2rem;
         font-weight: bold;
         text-align: center;
         color: #1f77b4;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     }
+
     .sub-header {
-        font-size: 1.5rem;
+        font-size: 1rem;
         color: #ff7f0e;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
     }
+
+    .metric-card,
+    .success-box,
+    .info-box,
+    .warning-box {
+        padding: 0.6rem;
+        border-radius: 8px;
+        margin: 0.5rem 0;
+        font-size: 0.9rem;
+        line-height: 1.3;
+        text-align: left;
+
+        /* Force wrapping */
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: anywhere !important;
+    }
+
     .metric-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 1rem;
-        border-radius: 10px;
         color: white;
-        text-align: center;
-        margin: 0.5rem 0;
     }
+
     .success-box {
         background-color: #d4edda;
         border: 1px solid #c3e6cb;
-        border-radius: 5px;
-        padding: 1rem;
-        margin: 1rem 0;
     }
+
     .info-box {
         background-color: #d1ecf1;
         border: 1px solid #bee5eb;
-        border-radius: 5px;
-        padding: 1rem;
-        margin: 1rem 0;
     }
+
     .warning-box {
         background-color: #fff3cd;
         border: 1px solid #ffeaa7;
-        border-radius: 5px;
-        padding: 1rem;
-        margin: 1rem 0;
+    }
+
+    /* Lists inside boxes */
+    .metric-card ul,
+    .success-box ul,
+    .info-box ul,
+    .warning-box ul {
+        margin: 0.3rem 0 0.3rem 1.2rem;
+        padding: 0;
+        font-size: 0.85rem;
+        line-height: 1.25;
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    .metric-card li,
+    .success-box li,
+    .info-box li,
+    .warning-box li {
+        margin-bottom: 0.25rem;
     }
 </style>
+
+
+
+
 """, unsafe_allow_html=True)
 
 if 'agent' not in st.session_state:
